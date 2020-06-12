@@ -50,7 +50,7 @@ var generatePhotos = function () {
       url: ('photos/' + i + '.jpg'),
       description: 'Фотография №' + i,
       likes: generateRandomNumber(LIKES_MIN, LIKES_MAX),
-      comments: generateComments()
+      comments: generateComments().length
     });
   }
   return photos;
@@ -61,7 +61,7 @@ var renderOnePhoto = function (photo) {
 
   photoElement.querySelector('.picture__img').src = photo.url;
   photoElement.querySelector('.picture__likes').textContent = photo.likes;
-  photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
+  photoElement.querySelector('.picture__comments').textContent = photo.comments;
 
   return photoElement;
 };
