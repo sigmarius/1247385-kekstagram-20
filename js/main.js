@@ -1,12 +1,16 @@
 'use strict';
 
-var MESSAGES = ['Всё отлично!',
+var MESSAGES = [
+  'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
-var NAMES = ['Ария Старк', 'Тирион Ланнистер', 'Теон Грейджой', 'Джон Сноу', 'Белые Ходоки', 'Дайенерис Таргариен', 'Серсея Ланнистер', 'Миссандея', 'Бронн Черноводный', 'Сандор Клиган'];
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+];
+var NAMES = [
+  'Ария Старк', 'Тирион Ланнистер', 'Теон Грейджой', 'Джон Сноу', 'Белые Ходоки', 'Дайенерис Таргариен', 'Серсея Ланнистер', 'Миссандея', 'Бронн Черноводный', 'Сандор Клиган'
+];
 var PHOTOS_COUNT = 25;
 var LIKES_MIN = 15;
 var LIKES_MAX = 200;
@@ -28,11 +32,10 @@ var getRandomElement = function (arr) {
   return arr[generateRandomNumber(0, arr.length - 1)];
 };
 
-var generateComments = function () {
-  var commentsCount = generateRandomNumber(COMMENTS_MIN, COMMENTS_MAX);
+var generateComments = function (count) {
   var comments = [];
 
-  for (var i = 0; i < commentsCount; i++) {
+  for (var i = 0; i < count; i++) {
     comments.push({
       avatar: 'img/avatar-' + generateRandomNumber(AVATARS_MIN, AVATARS_MAX) + '.svg',
       message: getRandomElement(MESSAGES),
