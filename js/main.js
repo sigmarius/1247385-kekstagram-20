@@ -18,6 +18,8 @@ var COMMENTS_MIN = 0;
 var COMMENTS_MAX = 10;
 var AVATARS_MIN = 1;
 var AVATARS_MAX = 6;
+var AVATAR_WIDTH = '35';
+var AVATAR_HEIGHT = '35';
 
 var photoTemplate = document.querySelector('#picture').content;
 var userPhotos = document.querySelector('.pictures');
@@ -83,74 +85,39 @@ userPhotos.appendChild(renderPhotos(photos));
 
 // create FullSize preview for the First Photo of the array of generated photos
 
-var firstPhotoElement = photos[0];
-
+var firstPhoto = photos[0];
 var bigPhotoBlock = document.querySelector('.big-picture');
-bigPhotoBlock.classList.remove('hidden');
 
-var addElementClass = function (elementName, selector, className) {
-  var element = elementName.querySelector(selector);
-  element.classList.add(className);
-
-  return element;
-};
-
-var changeElementText = function (selector, text) {
-  var element = bigPhotoBlock.querySelector(selector);
-  element.textContent = text;
-
-  return element;
-};
-
-var createElement = function (tagName, className) {
+var createElementWithClass = function (tagName, className) {
   var element = document.createElement(tagName);
   element.classList.add(className);
 
   return element;
 };
 
-var clearExistedComments = function () {
-  var comments = document.querySelectorAll('.social__comment');
-
-  for (var i = 0; i < comments.length; i++) {
-    comments[i].remove();
+var removeChildren = function (container) {
+  for (var i = 0; i < container.length; i++) {
+    container[i].remove();
   }
 };
 
-var createEnvironment = function () {
-  var bigPhoto = bigPhotoBlock.querySelector('.big-picture__img img');
-  bigPhoto.src = firstPhotoElement.url;
-  bigPhoto.alt = firstPhotoElement.description;
-
-  changeElementText('.likes-count', firstPhotoElement.likes);
-  changeElementText('.comments-count', firstPhotoElement.comments.length);
-  changeElementText('.social__caption', firstPhotoElement.description);
-  addElementClass(bigPhotoBlock, '.social__comment-count', 'hidden');
-  addElementClass(bigPhotoBlock, '.comments-loader', 'hidden');
-  addElementClass(document, 'body', 'modal-open');
-};
-
-var commentsList = bigPhotoBlock.querySelector('.social__comments');
-var fragment = document.createDocumentFragment();
-
 var renderComments = function () {
-  clearExistedComments();
+  removeChildren(document.querySelectorAll('.social__comment'));
 
-  var comments = firstPhotoElement.comments;
-  var avatarWidth = '35';
-  var avatarHeigth = '35';
+  var fragment = document.createDocumentFragment();
+  var comments = firstPhoto.comments;
 
   for (var i = 0; i < comments.length; i++) {
-    var commentItem = createElement('li', 'social__comment');
+    var commentItem = createElementWithClass('li', 'social__comment');
 
-    var avatar = createElement('img', 'social__picture');
+    var avatar = createElementWithClass('img', 'social__picture');
     avatar.src = comments[i].avatar;
     avatar.alt = comments[i].name;
-    avatar.width = avatarWidth;
-    avatar.heigth = avatarHeigth;
+    avatar.width = AVATAR_WIDTH;
+    avatar.heigth = AVATAR_HEIGHT;
     commentItem.appendChild(avatar);
 
-    var commentText = createElement('p', 'social__text');
+    var commentText = createElementWithClass('p', 'social__text');
     commentText.textContent = comments[i].message;
     commentItem.appendChild(commentText);
 
@@ -159,5 +126,22 @@ var renderComments = function () {
   return fragment;
 };
 
-createEnvironment();
-commentsList.appendChild(renderComments());
+var renderBigPhoto = function () {
+  var bigPhoto = bigPhotoBlock.querySelector('.big-picture__img img');
+  bigPhoto.src = firstPhoto.url;
+  bigPhoto.alt = firstPhoto.description;
+
+  bigPhotoBlock.querySelector('.likes-count').textContent = firstPhoto.likes;
+  bigPhotoBlock.querySelector('.comments-count').textContent = firstPhoto.comments.length;
+  bigPhotoBlock.querySelector('.social__caption').textContent = firstPhoto.description;
+
+  bigPhotoBlock.querySelector('.social__comment-count').classList.add('hidden');
+  bigPhotoBlock.querySelector('.comments-loader').classList.add('hidden');
+  document.querySelector('body').classList.add('modal-open');
+
+  var commentsList = bigPhotoBlock.querySelector('.social__comments');
+  commentsList.appendChild(renderComments());
+};
+
+bigPhotoBlock.classList.remove('hidden');
+renderBigPhoto();
