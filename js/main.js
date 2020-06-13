@@ -79,5 +79,85 @@ var renderPhotos = function (arrPhotos) {
 };
 
 var photos = generatePhotos();
-
 userPhotos.appendChild(renderPhotos(photos));
+
+// create FullSize preview for the First Photo of the array of generated photos
+
+var firstPhotoElement = photos[0];
+
+var bigPhotoBlock = document.querySelector('.big-picture');
+bigPhotoBlock.classList.remove('hidden');
+
+var addElementClass = function (elementName, selector, className) {
+  var element = elementName.querySelector(selector);
+  element.classList.add(className);
+
+  return element;
+};
+
+var changeElementText = function (selector, text) {
+  var element = bigPhotoBlock.querySelector(selector);
+  element.textContent = text;
+
+  return element;
+};
+
+var createElement = function (tagName, className) {
+  var element = document.createElement(tagName);
+  element.classList.add(className);
+
+  return element;
+};
+
+var clearExistedComments = function () {
+  var comments = document.querySelectorAll('.social__comment');
+
+  for (var i = 0; i < comments.length; i++) {
+    comments[i].remove();
+  }
+};
+
+var createEnvironment = function () {
+  var bigPhoto = bigPhotoBlock.querySelector('.big-picture__img img');
+  bigPhoto.src = firstPhotoElement.url;
+  bigPhoto.alt = firstPhotoElement.description;
+
+  changeElementText('.likes-count', firstPhotoElement.likes);
+  changeElementText('.comments-count', firstPhotoElement.comments.length);
+  changeElementText('.social__caption', firstPhotoElement.description);
+  addElementClass(bigPhotoBlock, '.social__comment-count', 'hidden');
+  addElementClass(bigPhotoBlock, '.comments-loader', 'hidden');
+  addElementClass(document, 'body', 'modal-open');
+};
+
+var commentsList = bigPhotoBlock.querySelector('.social__comments');
+var fragment = document.createDocumentFragment();
+
+var renderComments = function () {
+  clearExistedComments();
+
+  var comments = firstPhotoElement.comments;
+  var avatarWidth = '35';
+  var avatarHeigth = '35';
+
+  for (var i = 0; i < comments.length; i++) {
+    var commentItem = createElement('li', 'social__comment');
+
+    var avatar = createElement('img', 'social__picture');
+    avatar.src = comments[i].avatar;
+    avatar.alt = comments[i].name;
+    avatar.width = avatarWidth;
+    avatar.heigth = avatarHeigth;
+    commentItem.appendChild(avatar);
+
+    var commentText = createElement('p', 'social__text');
+    commentText.textContent = comments[i].message;
+    commentItem.appendChild(commentText);
+
+    fragment.appendChild(commentItem);
+  }
+  return fragment;
+};
+
+createEnvironment();
+commentsList.appendChild(renderComments());
