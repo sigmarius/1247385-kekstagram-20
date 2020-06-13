@@ -18,8 +18,8 @@ var COMMENTS_MIN = 0;
 var COMMENTS_MAX = 10;
 var AVATARS_MIN = 1;
 var AVATARS_MAX = 6;
-var AVATAR_WIDTH = '35';
-var AVATAR_HEIGHT = '35';
+var AVATAR_WIDTH = 35;
+var AVATAR_HEIGHT = 35;
 
 var photoTemplate = document.querySelector('#picture').content;
 var userPhotos = document.querySelector('.pictures');
@@ -81,12 +81,12 @@ var renderPhotos = function (arrPhotos) {
 };
 
 var photos = generatePhotos();
-userPhotos.appendChild(renderPhotos(photos));
 
 // create FullSize preview for the First Photo of the array of generated photos
 
-var firstPhoto = photos[0];
+var photo = photos[0];
 var bigPhotoBlock = document.querySelector('.big-picture');
+var bigPhoto = bigPhotoBlock.querySelector('.big-picture__img img');
 
 var createElementWithClass = function (tagName, className) {
   var element = document.createElement(tagName);
@@ -101,11 +101,10 @@ var removeChildren = function (container) {
   }
 };
 
-var renderComments = function () {
+var renderComments = function (comments) {
   removeChildren(document.querySelectorAll('.social__comment'));
 
   var fragment = document.createDocumentFragment();
-  var comments = firstPhoto.comments;
 
   for (var i = 0; i < comments.length; i++) {
     var commentItem = createElementWithClass('li', 'social__comment');
@@ -126,22 +125,22 @@ var renderComments = function () {
   return fragment;
 };
 
-var renderBigPhoto = function () {
-  var bigPhoto = bigPhotoBlock.querySelector('.big-picture__img img');
-  bigPhoto.src = firstPhoto.url;
-  bigPhoto.alt = firstPhoto.description;
+var renderBigPhoto = function (photoBig, photoObject) {
+  photoBig.src = photoObject.url;
+  photoBig.alt = photoObject.description;
 
-  bigPhotoBlock.querySelector('.likes-count').textContent = firstPhoto.likes;
-  bigPhotoBlock.querySelector('.comments-count').textContent = firstPhoto.comments.length;
-  bigPhotoBlock.querySelector('.social__caption').textContent = firstPhoto.description;
+  bigPhotoBlock.querySelector('.likes-count').textContent = photoObject.likes;
+  bigPhotoBlock.querySelector('.comments-count').textContent = photoObject.comments.length;
+  bigPhotoBlock.querySelector('.social__caption').textContent = photoObject.description;
 
   bigPhotoBlock.querySelector('.social__comment-count').classList.add('hidden');
   bigPhotoBlock.querySelector('.comments-loader').classList.add('hidden');
   document.querySelector('body').classList.add('modal-open');
 
   var commentsList = bigPhotoBlock.querySelector('.social__comments');
-  commentsList.appendChild(renderComments());
+  commentsList.appendChild(renderComments(photoObject.comments));
 };
 
+userPhotos.appendChild(renderPhotos(photos));
 bigPhotoBlock.classList.remove('hidden');
-renderBigPhoto();
+renderBigPhoto(bigPhoto, photo);
