@@ -21,18 +21,20 @@
   var levelValueInput = effectLevel.querySelector('.effect-level__value');
   var effectsList = imageUploadForm.querySelector('.effects__list'); // список эффектов
 
-  var effectChangeHandler = function (evt) {
+  var selectedEffect; // сохраняет эффект, выбранный в списке эффектов при наступлении события change
+
+  var setEffect = function (evt) {
     previewPhoto.classList = '';
     previewPhoto.classList.add('effects__preview--' + evt.target.value);
     previewPhoto.style = '';
     selectedEffect = evt.target.value;
 
     effectLevel.style.display = evt.target.value === 'none' ? 'none' : 'block';
+
+    return selectedEffect;
   };
 
-  var selectedEffect; // сохраняет эффект, выбранный в списке эффектов при наступлении события change
-
-  var levelPinChangeHandler = function () {
+  var setEffectLevel = function () {
     for (var i = 0; i < FILTERS.length; i++) {
       if (selectedEffect === FILTERS[i].name) {
         switch (selectedEffect) {
@@ -56,7 +58,19 @@
     }
   };
 
-  effectsList.addEventListener('change', effectChangeHandler);
-  levelPin.addEventListener('mouseup', levelPinChangeHandler);
+  var setEffectHandler = function () {
+    effectsList.addEventListener('change', setEffect);
+  };
+
+  var setEffectLevelHandler = function (handler) {
+    levelPin.addEventListener('mouseup', handler);
+  };
+
+  window.filters = {
+    setEffectHandler: setEffectHandler,
+    setEffectLevel: setEffectLevel,
+    setEffectLevelHandler: setEffectLevelHandler,
+    selectedEffect: selectedEffect
+  };
 
 })();

@@ -5,7 +5,6 @@
 (function () {
 
   var photoTemplate = document.querySelector('#picture').content;
-  var userPhotos = document.querySelector('.pictures');
 
   var renderOnePhoto = function (photo) {
     var photoElement = photoTemplate.cloneNode(true);
@@ -26,6 +25,8 @@
     return fragment;
   };
 
-  userPhotos.appendChild(renderPhotos(window.data.photos));
+  window.gallery = {
+    renderPhotos: renderPhotos
+  };
 
 })();

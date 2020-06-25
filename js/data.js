@@ -4,6 +4,14 @@
 
 (function () {
 
+  var PHOTOS_COUNT = 25;
+  var LIKES_MIN = 15;
+  var LIKES_MAX = 200;
+  var COMMENTS_MIN = 0;
+  var COMMENTS_MAX = 10;
+  var AVATARS_MIN = 1;
+  var AVATARS_MAX = 6;
+
   var MESSAGES = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -16,22 +24,14 @@
     'Ария Старк', 'Тирион Ланнистер', 'Теон Грейджой', 'Джон Сноу', 'Белые Ходоки', 'Дайенерис Таргариен', 'Серсея Ланнистер', 'Миссандея', 'Бронн Черноводный', 'Сандор Клиган'
   ];
 
-  var PHOTOS_COUNT = 25;
-  var LIKES_MIN = 15;
-  var LIKES_MAX = 200;
-  var COMMENTS_MIN = 0;
-  var COMMENTS_MAX = 10;
-  var AVATARS_MIN = 1;
-  var AVATARS_MAX = 6;
-
   var generateComments = function (count) {
     var comments = [];
 
     for (var i = 0; i < count; i++) {
       comments.push({
-        avatar: 'img/avatar-' + window.main.generateRandomNumber(AVATARS_MIN, AVATARS_MAX) + '.svg',
-        message: window.main.getRandomElement(MESSAGES),
-        name: window.main.getRandomElement(NAMES)
+        avatar: 'img/avatar-' + window.utils.generateRandomNumber(AVATARS_MIN, AVATARS_MAX) + '.svg',
+        message: window.utils.getRandomElement(MESSAGES),
+        name: window.utils.getRandomElement(NAMES)
       });
     }
     return comments;
@@ -44,15 +44,15 @@
       photos.push({
         url: ('photos/' + i + '.jpg'),
         description: 'Фотография №' + i,
-        likes: window.main.generateRandomNumber(LIKES_MIN, LIKES_MAX),
-        comments: generateComments(window.main.generateRandomNumber(COMMENTS_MIN, COMMENTS_MAX))
+        likes: window.utils.generateRandomNumber(LIKES_MIN, LIKES_MAX),
+        comments: generateComments(window.utils.generateRandomNumber(COMMENTS_MIN, COMMENTS_MAX))
       });
     }
     return photos;
   };
 
   window.data = {
-    photos: generatePhotos(),
+    generatePhotos: generatePhotos
   };
 
 })();

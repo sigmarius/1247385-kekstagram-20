@@ -18,7 +18,7 @@
   var scaleSmaller = imageUploadForm.querySelector('.scale__control--smaller');
   var scaleBigger = imageUploadForm.querySelector('.scale__control--bigger');
 
-  var changeImageSizeHandler = function (evt) {
+  var setImageScale = function (evt) {
     var scaleValue = parseInt(scaleValueInput.value, 10);
     switch (evt.target) {
       case scaleSmaller :
@@ -36,6 +36,12 @@
     previewPhoto.style.transform = 'scale(' + scaleValue / 100 + ')';
   };
 
-  scaleBlock.addEventListener('click', changeImageSizeHandler);
+  var setScaleHandler = function () {
+    scaleBlock.addEventListener('click', setImageScale);
+  };
+
+  window.scale = {
+    setScaleHandler: setScaleHandler
+  };
 
 })();

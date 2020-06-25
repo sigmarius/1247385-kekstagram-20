@@ -13,8 +13,8 @@
   var textHashtags = imageUploadForm.querySelector('.text__hashtags');
   var commentsArea = imageUploadForm.querySelector('.text__description');
 
-  var toggleFormHandler = function (openForm) {
-    if (openForm) {
+  var setVisible = function (visible) {
+    if (visible) {
       editImageSection.classList.remove('hidden');
       effectLevel.style.display = 'none';
       document.querySelector('body').classList.add('modal-open');
@@ -24,23 +24,30 @@
       document.querySelector('body').classList.remove('modal-open');
       document.removeEventListener('keydown', escapeClickHandler);
       loadImageButton.value = '';
-      window.hashtags.removeListeners();
     }
   };
 
   var escapeClickHandler = function (evt) {
-    if (evt.key === window.main.KeyCode.ESCAPE && evt.target !== textHashtags && evt.target !== commentsArea) {
+    if (evt.key === window.utils.KeyCode.ESCAPE
+        && evt.target !== textHashtags
+        && evt.target !== commentsArea) {
       evt.preventDefault();
-      toggleFormHandler(false);
+      setVisible(false);
     }
   };
 
-  loadImageButton.addEventListener('change', function () {
-    toggleFormHandler(true);
-  });
+  var setLoadImageHandler = function (handler) {
+    loadImageButton.addEventListener('change', handler);
+  };
 
-  closeFormButton.addEventListener('click', function () {
-    toggleFormHandler(false);
-  });
+  var setCloseHandler = function (handler) {
+    closeFormButton.addEventListener('click', handler);
+  };
+
+  window.form = {
+    setLoadImageHandler: setLoadImageHandler,
+    setCloseHandler: setCloseHandler,
+    setVisible: setVisible
+  };
 
 })();
