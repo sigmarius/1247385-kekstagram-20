@@ -3,12 +3,7 @@
 // точка входа
 (function () {
 
-  var userPhotos = document.querySelector('.pictures');
-
-  var photos = window.data.generatePhotos();
-  userPhotos.appendChild(window.gallery.renderPhotos(photos));
-
-  window.bigPhoto.renderBigPhoto(photos[0]);
+  window.backend.load(window.gallery.renderPhotos, window.gallery.errorHandler);
 
   window.form.setLoadImageHandler(function () {
     window.form.setVisible(true);
