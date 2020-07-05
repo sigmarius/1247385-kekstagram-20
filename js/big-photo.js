@@ -48,6 +48,7 @@
 
     var commentsList = bigPhotoBlock.querySelector('.social__comments');
     commentsList.appendChild(renderComments(photoObject.comments));
+    bigPhotoBlock.classList.remove('hidden');
   };
 
   window.bigPhoto = {
