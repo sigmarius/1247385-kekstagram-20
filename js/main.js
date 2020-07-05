@@ -3,7 +3,7 @@
 // точка входа
 (function () {
 
-  window.backend.load(window.gallery.renderPhotos, window.gallery.errorHandler);
+  window.backend.load(window.gallery.renderPhotos, window.message.showError);
 
   window.form.setLoadImageHandler(function () {
     window.form.setVisible(true);
