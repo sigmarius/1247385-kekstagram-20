@@ -19,6 +19,11 @@
     window.domUtils.removeChildren(pictures);
   };
 
+  var getDebouncedPhotos = window.debounce(function (arr) {
+    window.renderPhotos(arr);
+  });
+
+
   var getRandomPhotos = function () {
     var randomPhotos = window.photos.slice();
     var deletedPhotos = [];
@@ -27,8 +32,7 @@
       var index = window.utils.generateRandomNumber(0, randomPhotos.length - 1);
       deletedPhotos.push(randomPhotos.splice(index, 1));
     }
-
-    window.renderPhotos(randomPhotos);
+    getDebouncedPhotos(randomPhotos);
   };
 
   // для устойчивости сортировки - если comments.length одинаково, сортируем по likes
@@ -52,14 +56,14 @@
 
   var getDescComments = function () {
     var descComments = window.photos.slice().sort(compareComments);
-    window.renderPhotos(descComments);
+    getDebouncedPhotos(descComments);
   };
 
   var updatePhotosHandler = function (evt) {
     clearPictures();
     switch (evt.target) {
       case Filter.DEFAULT :
-        window.renderPhotos(window.photos);
+        getDebouncedPhotos(window.photos);
         break;
       case Filter.RANDOM :
         getRandomPhotos();
