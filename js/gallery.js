@@ -17,18 +17,13 @@
     return photoElement;
   };
 
-  var renderPhotos = function (arrPhotos) {
+  window.renderPhotos = function (arrPhotos) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < arrPhotos.length; i++) {
       fragment.appendChild(renderOnePhoto(arrPhotos[i]));
     }
     userPhotos.appendChild(fragment);
-    window.gallery.photos = arrPhotos;
-  };
-
-  window.gallery = {
-    renderPhotos: renderPhotos
   };
 
 })();

@@ -3,7 +3,18 @@
 // точка входа
 (function () {
 
-  window.backend.load(window.gallery.renderPhotos, window.message.showError);
+  var successLoadHandler = function (data) {
+    // отображает фильтры на главной странице при успешной загрузке
+    var imageFilters = document.querySelector('.img-filters');
+    imageFilters.classList.remove('img-filters--inactive');
+
+    window.renderPhotos(data);
+    window.photos = data; // массив фотографий с сервера
+  };
+
+  window.backend.load(successLoadHandler, window.message.showError);
+
+  window.setSortHandler();
 
   window.form.setLoadImageHandler(function () {
     window.form.setVisible(true);
