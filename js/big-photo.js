@@ -9,6 +9,8 @@
 
   var bigPhotoBlock = document.querySelector('.big-picture');
   var bigPhoto = bigPhotoBlock.querySelector('.big-picture__img img');
+  var closeButton = document.querySelector('.big-picture__cancel');
+  var body = document.querySelector('body');
 
   var renderComments = function (comments) {
     window.domUtils.removeChildren(document.querySelectorAll('.social__comment'));
@@ -35,6 +37,8 @@
   };
 
   var renderBigPhoto = function (photoObject) {
+    var commentsList = bigPhotoBlock.querySelector('.social__comments');
+
     bigPhoto.src = photoObject.url;
     bigPhoto.alt = photoObject.description;
 
@@ -44,15 +48,47 @@
 
     bigPhotoBlock.querySelector('.social__comment-count').classList.add('hidden');
     bigPhotoBlock.querySelector('.comments-loader').classList.add('hidden');
-    document.querySelector('body').classList.add('modal-open');
 
-    var commentsList = bigPhotoBlock.querySelector('.social__comments');
     commentsList.appendChild(renderComments(photoObject.comments));
-    bigPhotoBlock.classList.remove('hidden');
+
+    setVisible(true);
   };
 
-  window.bigPhoto = {
-    renderBigPhoto: renderBigPhoto
+  var escapeKeyHandler = function (evt) {
+    if (evt.key === window.utils.KeyCode.ESCAPE) {
+      evt.preventDefault();
+      setVisible(false);
+    }
+  };
+
+  var setVisible = function (visible) {
+    if (visible) {
+      bigPhotoBlock.classList.remove('hidden');
+      body.classList.add('modal-open');
+      document.addEventListener('keydown', escapeKeyHandler);
+    } else {
+      bigPhotoBlock.classList.add('hidden');
+      body.classList.remove('modal-open');
+      document.removeEventListener('keydown', escapeKeyHandler);
+    }
+  };
+
+  window.setThumbnailClickHandler = function (photos) {
+    var pictureLinks = document.querySelectorAll('.picture');
+
+    var addPictureClickHandler = function (picture, photo) {
+      picture.addEventListener('click', function () {
+        renderBigPhoto(photo);
+      });
+    };
+
+    for (var i = 0; i < pictureLinks.length; i++) {
+      addPictureClickHandler(pictureLinks[i], photos[i]);
+    }
+
+    closeButton.addEventListener('click', function () {
+      setVisible(false);
+    });
   };
 
 })();
