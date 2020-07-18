@@ -17,7 +17,6 @@
   var previewPhoto = imageUploadForm.querySelector('.img-upload__preview img');
 
   var effectLevel = imageUploadForm.querySelector('.effect-level'); // блок со слайдером
-  var levelPin = effectLevel.querySelector('.effect-level__pin');
   var levelValueInput = effectLevel.querySelector('.effect-level__value');
   var effectsList = imageUploadForm.querySelector('.effects__list'); // список эффектов
 
@@ -30,6 +29,7 @@
     selectedEffect = evt.target.value;
 
     effectLevel.style.display = evt.target.value === 'none' ? 'none' : 'block';
+    window.initMove(setEffectLevel);
 
     return selectedEffect;
   };
@@ -62,15 +62,9 @@
     effectsList.addEventListener('change', setEffect);
   };
 
-  var setEffectLevelHandler = function (handler) {
-    levelPin.addEventListener('mouseup', handler);
-  };
-
   window.filters = {
     setEffectHandler: setEffectHandler,
     setEffectLevel: setEffectLevel,
-    setEffectLevelHandler: setEffectLevelHandler,
-    selectedEffect: selectedEffect
   };
 
 })();

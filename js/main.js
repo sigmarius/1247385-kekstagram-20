@@ -29,11 +29,13 @@
 
   window.hashtags.setHashtagsHandler();
 
+  // window.initMove(window.filters.setEffectLevel);
+
   window.filters.setEffectHandler();
 
-  window.filters.setEffectLevelHandler(function () {
-    window.filters.setEffectLevel(window.filters.selectedEffect);
-  });
+  // window.filters.setEffectLevelHandler(function () {
+  //   window.filters.setEffectLevel(window.filters.selectedEffect);
+  // });
 
   window.scale.setScaleHandler();
 
