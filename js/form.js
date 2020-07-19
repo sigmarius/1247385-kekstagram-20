@@ -40,6 +40,45 @@
     loadImageButton.addEventListener('change', handler);
   };
 
+  var getSuccessMessage = function () {
+    var successTemplate = document.querySelector('#success').content;
+    var main = document.querySelector('main');
+    var successMessage = successTemplate.cloneNode(true);
+
+    var successSection = successMessage.querySelector('.success');
+    var successWindow = successMessage.querySelector('.success__inner');
+    var successButton = successMessage.querySelector('.success__button');
+
+    main.appendChild(successMessage);
+
+    var closeHandler = function () {
+      successSection.removeEventListener('click', closeHandler);
+      main.removeChild(successSection);
+    };
+
+    successSection.addEventListener('click', function (evt) {
+      if (evt.target !== successWindow) {
+        closeHandler();
+      }
+    });
+
+    successButton.addEventListener('click', closeHandler);
+  };
+
+  var successSaveHandler = function () {
+    textHashtags.value = '';
+    commentsArea.value = '';
+    setVisible(false);
+    getSuccessMessage();
+  };
+
+  var formSubmitHandler = function (evt) {
+    window.backend.save(new FormData(imageUploadForm), successSaveHandler, window.message.showError);
+    evt.preventDefault();
+  };
+
+  imageUploadForm.addEventListener('submit', formSubmitHandler);
+
   var setCloseHandler = function (handler) {
     closeFormButton.addEventListener('click', handler);
   };
