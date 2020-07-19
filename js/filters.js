@@ -29,7 +29,8 @@
     selectedEffect = evt.target.value;
 
     effectLevel.style.display = evt.target.value === 'none' ? 'none' : 'block';
-    window.initMove(setEffectLevel);
+    window.move.stopMove();
+    window.move.initMove();
 
     return selectedEffect;
   };

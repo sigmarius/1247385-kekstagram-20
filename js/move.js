@@ -1,55 +1,79 @@
 'use strict';
 
 (function () {
+  var DEFAULT_VALUE = 20;
+
   var effectPin = document.querySelector('.effect-level__pin');
   var effectLine = document.querySelector('.effect-level__line');
   var effectDepth = document.querySelector('.effect-level__depth');
   var effectValueInput = document.querySelector('.effect-level__value');
 
-  window.initMove = function (callback) {
+  var isMoved = false; // флаг, было ли перемещение ползунка
+
+  var pinMousedownHandler = function (evt) {
     var pinLimits = {
       left: 0,
       right: effectLine.offsetWidth
     };
 
-    effectPin.addEventListener('mousedown', function (evt) {
-      evt.preventDefault();
+    isMoved = true;
 
-      var startX = evt.clientX;
+    evt.preventDefault();
 
-      var onMouseMove = function (moveEvt) {
-        moveEvt.preventDefault();
+    var startX = evt.clientX;
 
-        var shiftX = startX - moveEvt.clientX;
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
 
-        startX = moveEvt.clientX;
+      var shiftX = startX - moveEvt.clientX;
 
-        var pos = effectPin.offsetLeft - shiftX;
+      startX = moveEvt.clientX;
 
-        if (pos < pinLimits.left) {
-          pos = 0;
-        } else if (pos > pinLimits.right) {
-          pos = pinLimits.right;
-        }
+      var pos = effectPin.offsetLeft - shiftX;
 
-        var delta = Math.floor((pos / pinLimits.right) * 100);
-        effectValueInput.value = delta;
-        effectDepth.style.width = delta + '%';
+      if (pos < pinLimits.left) {
+        pos = 0;
+      } else if (pos > pinLimits.right) {
+        pos = pinLimits.right;
+      }
 
-        effectPin.style.left = pos + 'px';
+      var delta = Math.floor((pos / pinLimits.right) * 100);
+      effectValueInput.value = delta;
+      effectDepth.style.width = delta + '%';
 
-        callback();
-      };
+      effectPin.style.left = pos + 'px';
 
-      var onMouseUp = function (upEvt) {
-        upEvt.preventDefault();
+      window.filters.setEffectLevel();
 
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-      };
+    };
 
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    });
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   };
+
+  var initMove = function () {
+    effectPin.addEventListener('mousedown', pinMousedownHandler);
+  };
+
+  var stopMove = function () {
+    if (isMoved) {
+      effectPin.removeEventListener('mousedown', pinMousedownHandler);
+      effectValueInput.value = DEFAULT_VALUE;
+      effectDepth.style.width = DEFAULT_VALUE + '%';
+      effectPin.style.left = DEFAULT_VALUE + '%';
+    }
+  };
+
+  window.move = {
+    initMove: initMove,
+    stopMove: stopMove
+  };
+
 })();
