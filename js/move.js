@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var DEFAULT_VALUE = 20;
+  var DEFAULT_VALUE = 100;
 
   var effectPin = document.querySelector('.effect-level__pin');
   var effectLine = document.querySelector('.effect-level__line');
@@ -9,6 +9,12 @@
   var effectValueInput = document.querySelector('.effect-level__value');
 
   var isMoved = false; // флаг, было ли перемещение ползунка
+
+  var getDefaultPosition = function () {
+    effectValueInput.value = DEFAULT_VALUE;
+    effectDepth.style.width = DEFAULT_VALUE + '%';
+    effectPin.style.left = DEFAULT_VALUE + '%';
+  };
 
   var pinMousedownHandler = function (evt) {
     var pinLimits = {
@@ -44,7 +50,6 @@
       effectPin.style.left = pos + 'px';
 
       window.filters.setEffectLevel();
-
     };
 
     var onMouseUp = function (upEvt) {
@@ -65,15 +70,14 @@
   var stopMove = function () {
     if (isMoved) {
       effectPin.removeEventListener('mousedown', pinMousedownHandler);
-      effectValueInput.value = DEFAULT_VALUE;
-      effectDepth.style.width = DEFAULT_VALUE + '%';
-      effectPin.style.left = DEFAULT_VALUE + '%';
+      getDefaultPosition();
     }
   };
 
   window.move = {
     initMove: initMove,
-    stopMove: stopMove
+    stopMove: stopMove,
+    getDefaultPosition: getDefaultPosition
   };
 
 })();

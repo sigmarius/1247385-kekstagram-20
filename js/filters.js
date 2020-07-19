@@ -28,9 +28,15 @@
     previewPhoto.style = '';
     selectedEffect = evt.target.value;
 
-    effectLevel.style.display = evt.target.value === 'none' ? 'none' : 'block';
-    window.move.stopMove();
-    window.move.initMove();
+    if (evt.target.value !== 'none') {
+      effectLevel.style.display = 'block';
+      window.move.getDefaultPosition();
+
+      window.move.stopMove();
+      window.move.initMove();
+    } else {
+      effectLevel.style.display = 'none';
+    }
 
     return selectedEffect;
   };
