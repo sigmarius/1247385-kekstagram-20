@@ -8,11 +8,13 @@
   var TIMEOUT = 10000;
 
   var Url = {
-    LOAD: 'https://javascript.pages.academy/kekstagram/data'
+    LOAD: 'https://javascript.pages.academy/kekstagram/data',
+    SAVE: 'https://javascript.pages.academy/kekstagram'
   };
 
   var Method = {
-    GET: 'GET'
+    GET: 'GET',
+    POST: 'POST'
   };
 
   var StatusCode = {
@@ -50,8 +52,16 @@
     xhr.send();
   };
 
+  // отправка данных на сервер
+  var save = function (data, onLoad, onError) {
+    var xhr = createRequest(onLoad, onError);
+    xhr.open(Method.POST, Url.SAVE);
+    xhr.send(data);
+  };
+
   window.backend = {
-    load: load
+    load: load,
+    save: save
   };
 
 })();

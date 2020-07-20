@@ -19,11 +19,16 @@
       effectLevel.style.display = 'none';
       document.querySelector('body').classList.add('modal-open');
       document.addEventListener('keydown', escapeClickHandler);
+      imageUploadForm.addEventListener('submit', formSubmitHandler);
+      window.filters.setEffectHandler();
     } else {
       editImageSection.classList.add('hidden');
       document.querySelector('body').classList.remove('modal-open');
       document.removeEventListener('keydown', escapeClickHandler);
       loadImageButton.value = '';
+      window.filters.getDefaultEffect();
+      window.filters.removeEffectHandler();
+      imageUploadForm.removeEventListener('submit', formSubmitHandler);
     }
   };
 
@@ -39,6 +44,24 @@
   var setLoadImageHandler = function (handler) {
     loadImageButton.addEventListener('change', handler);
   };
+
+  var successSaveHandler = function () {
+    textHashtags.value = '';
+    commentsArea.value = '';
+    setVisible(false);
+    window.message.showSuccess();
+  };
+
+  var errorSaveHandler = function () {
+    setVisible(false);
+    window.message.showSaveError();
+  };
+
+  var formSubmitHandler = function (evt) {
+    window.backend.save(new FormData(imageUploadForm), successSaveHandler, errorSaveHandler);
+    evt.preventDefault();
+  };
+
 
   var setCloseHandler = function (handler) {
     closeFormButton.addEventListener('click', handler);
