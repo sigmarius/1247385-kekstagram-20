@@ -15,7 +15,7 @@
     window.setThumbnailClickHandler(window.photos);
   };
 
-  window.backend.load(successLoadHandler, window.message.showError);
+  window.backend.load(successLoadHandler, window.message.showLoadError);
 
   window.setSortHandler();
 
@@ -28,8 +28,6 @@
   });
 
   window.hashtags.setHashtagsHandler();
-
-  window.filters.setEffectHandler();
 
   window.scale.setScaleHandler();
 
