@@ -60,7 +60,6 @@
     renderComments(loadedComments);
 
     leftComments = loadedComments;
-
   };
 
   var removeCommentsListener = function () {

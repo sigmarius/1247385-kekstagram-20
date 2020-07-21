@@ -21,7 +21,7 @@
 
   var getDebouncedPhotos = window.debounce(function (arr) {
     window.renderPhotos(arr);
-    window.setThumbnailClickHandler(arr);
+    window.preview.setThumbnailClickHandler(arr);
   });
 
 
