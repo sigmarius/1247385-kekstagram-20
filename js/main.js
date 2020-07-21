@@ -12,7 +12,7 @@
     window.photos = data; // массив фотографий с сервера
 
     // полноразмерный просмотр изображения на главной странице
-    window.setThumbnailClickHandler(window.photos);
+    window.preview.setThumbnailClickHandler(window.photos);
   };
 
   window.backend.load(successLoadHandler, window.message.showLoadError);
